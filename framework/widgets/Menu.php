@@ -177,6 +177,7 @@ class Menu extends Widget
         if ($this->params === null) {
             $this->params = Yii::$app->request->getQueryParams();
         }
+        $hasActiveChild = false;
         $items = $this->normalizeItems($this->items, $hasActiveChild);
         if (!empty($items)) {
             $options = $this->options;

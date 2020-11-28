@@ -108,6 +108,7 @@ class Security extends Component
         if ($this->_useLibreSSL === null) {
             // Parse OPENSSL_VERSION_TEXT because OPENSSL_VERSION_NUMBER is no use for LibreSSL.
             // https://bugs.php.net/bug.php?id=71143
+            $matches = [];
             $this->_useLibreSSL = defined('OPENSSL_VERSION_TEXT')
                 && preg_match('{^LibreSSL (\d\d?)\.(\d\d?)\.(\d\d?)$}', OPENSSL_VERSION_TEXT, $matches)
                 && (10000 * $matches[1]) + (100 * $matches[2]) + $matches[3] >= 20105;
