@@ -507,6 +507,13 @@ abstract class SchemaTest extends DatabaseTestCase
     public function testColumnSchema()
     {
         $columns = $this->getExpectedColumns();
+        $isMariaDB = $this->getConnection(false)->driverName === 'mysql'
+            && strpos($this->getConnection()->createCommand("SELECT @@version")->queryScalar(), 'MariaDB') !== false;
+        if ($isMariaDB) {
+            $columns['json_col']['dbType'] = 'longtext';
+            $columns['json_col']['phpType'] = 'string';
+            $columns['json_col']['type'] = 'text';
+        }
 
         $table = $this->getConnection(false)->schema->getTableSchema('type', true);
 
