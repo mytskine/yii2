@@ -96,6 +96,7 @@ abstract class SqlTokenizer extends Component
         $this->_token[] = new SqlToken(['type' => SqlToken::TYPE_STATEMENT]);
         $this->_tokenStack->push($this->_token[0]);
         $this->_currentToken = $this->_tokenStack->top();
+        $length = 0;
         while (!$this->isEof()) {
             if ($this->isWhitespace($length) || $this->isComment($length)) {
                 $this->addTokenFromBuffer();
@@ -269,6 +270,7 @@ abstract class SqlTokenizer extends Component
      */
     private function tokenizeDelimitedString(&$length)
     {
+        $content = null;
         $isIdentifier = $this->isIdentifier($length, $content);
         $isStringLiteral = !$isIdentifier && $this->isStringLiteral($length, $content);
         if (!$isIdentifier && !$isStringLiteral) {
@@ -292,6 +294,7 @@ abstract class SqlTokenizer extends Component
      */
     private function tokenizeOperator(&$length)
     {
+        $content = null;
         if (!$this->isOperator($length, $content)) {
             return false;
         }
@@ -358,6 +361,7 @@ abstract class SqlTokenizer extends Component
             return;
         }
 
+        $content = null;
         $isKeyword = $this->isKeyword($this->_buffer, $content);
         $this->_currentToken[] = new SqlToken([
             'type' => $isKeyword ? SqlToken::TYPE_KEYWORD : SqlToken::TYPE_TOKEN,
