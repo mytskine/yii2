@@ -122,4 +122,14 @@ interface ConstraintFinderInterface
      * Each array element is an array of [[DefaultValueConstraint]] or its child classes.
      */
     public function getSchemaDefaultValues($schema = '', $refresh = false);
+
+    /**
+     * Quotes a column name for use in a query.
+     * If the column name contains prefix, the prefix will also be properly quoted.
+     * If the column name is already quoted or contains '(', '[[' or '{{',
+     * then this method will do nothing.
+     * @param string $name column name
+     * @return string the properly quoted column name
+     */
+    public function quoteColumnName($name);
 }
