@@ -42,6 +42,7 @@ class SessionTest extends TestCase
     public function testParamsAfterSessionStart()
     {
         $session = new Session();
+        $session->setSavePath(sys_get_temp_dir());
         $session->open();
 
         $oldUseTransparentSession = $session->getUseTransparentSessionID();
@@ -72,6 +73,7 @@ class SessionTest extends TestCase
         $this->assertNotEquals($oldGcProbability, $newGcProbability);
         $this->assertEquals(100, $newGcProbability);
         $session->setGCProbability($oldGcProbability);
+        $session->destroy();
     }
 
     /**
@@ -80,6 +82,7 @@ class SessionTest extends TestCase
     public function testSetName()
     {
         $session = new Session();
+        $session->setSavePath(sys_get_temp_dir());
         $session->setName('oldName');
 
         $this->assertEquals('oldName', $session->getName());
@@ -100,7 +103,7 @@ class SessionTest extends TestCase
     public function testUseStrictMode()
     {
         //Manual garbage collection since native storage module might not support removing data via Session::destroySession()
-        $sessionSavePath = session_save_path() ?: sys_get_temp_dir();
+        $sessionSavePath = sys_get_temp_dir();
         // Only perform garbage collection if "N argument" is not used,
         // see https://www.php.net/manual/en/session.configuration.php#ini.session.save-path
         if (strpos($sessionSavePath, ';') === false) {
