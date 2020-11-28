@@ -96,9 +96,6 @@ Yii suporta uma ampla gama de sistemas de cache. A seguir um resumo:
   [Redis](http://redis.io/) (requer redis versão 2.6.12 ou mais recente).
 * [[yii\caching\WinCache]]: usa a extensão PHP [WinCache](http://iis.net/downloads/microsoft/wincache-extension)
   ([veja também](https://secure.php.net/manual/en/book.wincache.php)).
-* [[yii\caching\ZendDataCache]] _(deprecated)_: usa
-  [Cache de Dados Zend](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm)
-  como o meio de cache subjacente.
 
 
 > Dica: Você pode usar vários tipos de cache na mesma aplicação. Uma estratégia comum é usar caches baseados 

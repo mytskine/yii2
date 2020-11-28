@@ -128,9 +128,6 @@ Yii はさまざまなキャッシュ・ストレージをサポートしてい�
   (Redis の バージョン 2.6.12 以降が必要とされます) 。
 * [[yii\caching\WinCache]]: PHP の [WinCache](http://iis.net/downloads/microsoft/wincache-extension) エクステンションを使用します。
   ([参照リンク](https://secure.php.net/manual/ja/book.wincache.php))
-* [[yii\caching\ZendDataCache]] _(非推奨)_:
-  キャッシュ・メディアとして [Zend Data Cache](http://files.zend.com/help/Zend-Server-6/zend-server.htm#data_cache_component.htm)
-  を使用します。
 
 
 > Tip: 同じアプリケーション内で異なるキャッシュを使用することもできます。
