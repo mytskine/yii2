@@ -898,7 +898,7 @@ TEXT;
      */
     public function testRandomKeyNoOptions()
     {
-        static::$functions = ['random_bytes' => false, 'openssl_random_pseudo_bytes' => false, 'mcrypt_create_iv' => false];
+        static::$functions = ['random_bytes' => false, 'openssl_random_pseudo_bytes' => false];
         static::$fopen = false;
         $this->expectException('yii\base\Exception');
         $this->expectExceptionMessage('Unable to generate a random key');
@@ -911,7 +911,7 @@ TEXT;
      */
     public function testRandomKeyFreadFailure()
     {
-        static::$functions = ['random_bytes' => false, 'openssl_random_pseudo_bytes' => false, 'mcrypt_create_iv' => false];
+        static::$functions = ['random_bytes' => false, 'openssl_random_pseudo_bytes' => false];
         static::$fread = false;
         $this->expectException('yii\base\Exception');
         $this->expectExceptionMessage('Unable to generate a random key');
@@ -925,14 +925,10 @@ TEXT;
     public function randomKeyVariants()
     {
         return [
-            [['random_bytes' => true,  'openssl_random_pseudo_bytes' => true,  'mcrypt_create_iv' => true]],
-            [['random_bytes' => true,  'openssl_random_pseudo_bytes' => true,  'mcrypt_create_iv' => false]],
-            [['random_bytes' => true,  'openssl_random_pseudo_bytes' => false, 'mcrypt_create_iv' => true]],
-            [['random_bytes' => true,  'openssl_random_pseudo_bytes' => false, 'mcrypt_create_iv' => false]],
-            [['random_bytes' => false, 'openssl_random_pseudo_bytes' => true,  'mcrypt_create_iv' => true]],
-            [['random_bytes' => false, 'openssl_random_pseudo_bytes' => true,  'mcrypt_create_iv' => false]],
-            [['random_bytes' => false, 'openssl_random_pseudo_bytes' => false, 'mcrypt_create_iv' => true]],
-            [['random_bytes' => false, 'openssl_random_pseudo_bytes' => false, 'mcrypt_create_iv' => false]],
+            [['random_bytes' => true,  'openssl_random_pseudo_bytes' => true]],
+            [['random_bytes' => true,  'openssl_random_pseudo_bytes' => false]],
+            [['random_bytes' => false, 'openssl_random_pseudo_bytes' => true]],
+            [['random_bytes' => false, 'openssl_random_pseudo_bytes' => false]],
         ];
     }
 
@@ -948,17 +944,9 @@ TEXT;
             }
         }
         // there is no /dev/urandom on windows so we expect this to fail
-        if ($this->isWindows() && $functions['random_bytes'] === false && $functions['openssl_random_pseudo_bytes'] === false && $functions['mcrypt_create_iv'] === false) {
+        if ($this->isWindows() && $functions['random_bytes'] === false && $functions['openssl_random_pseudo_bytes'] === false) {
             $this->expectException('yii\base\Exception');
             $this->expectExceptionMessage('Unable to generate a random key');
-        }
-        // Function mcrypt_create_iv() is deprecated since PHP 7.1
-        if (version_compare(PHP_VERSION, '7.1.0alpha', '>=') && $functions['random_bytes'] === false && $functions['mcrypt_create_iv'] === true) {
-            if ($functions['openssl_random_pseudo_bytes'] === false) {
-                $this->markTestSkipped('Function mcrypt_create_iv() is deprecated as of PHP 7.1');
-            } elseif (!$this->security->shouldUseLibreSSL() && !$this->isWindows()) {
-                $this->markTestSkipped('Function openssl_random_pseudo_bytes need LibreSSL version >=2.1.5 or Windows system on server');
-            }
         }
 
         static::$functions = $functions;
@@ -1018,7 +1006,6 @@ TEXT;
             "defined('OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : null",
             'PHP_VERSION_ID',
             'PHP_OS',
-            "function_exists('mcrypt_create_iv') ? bin2hex(mcrypt_create_iv(4, MCRYPT_DEV_URANDOM)) : null",
             'DIRECTORY_SEPARATOR',
             "ini_get('open_basedir')",
         ];
