@@ -410,17 +410,17 @@ class View extends Component implements DynamicContentAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function addDynamicPlaceholder($placeholder, $statements)
+    public function addDynamicPlaceholder($name, $statements)
     {
         foreach ($this->cacheStack as $cache) {
             if ($cache instanceof DynamicContentAwareInterface) {
-                $cache->addDynamicPlaceholder($placeholder, $statements);
+                $cache->addDynamicPlaceholder($name, $statements);
             } else {
                 // TODO: Remove in 2.1
-                $cache->dynamicPlaceholders[$placeholder] = $statements;
+                $cache->dynamicPlaceholders[$name] = $statements;
             }
         }
-        $this->dynamicPlaceholders[$placeholder] = $statements;
+        $this->dynamicPlaceholders[$name] = $statements;
 }
 
     /**
