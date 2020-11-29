@@ -97,10 +97,16 @@ abstract class DatabaseTestCase extends TestCase
             } else {
                 $lines = explode(';', file_get_contents($fixture));
             }
+            if ($this->driverName === 'sqlite') {
+                $db->pdo->exec("PRAGMA synchronous = OFF");
+            }
             foreach ($lines as $line) {
                 if (trim($line) !== '') {
                     $db->pdo->exec($line);
                 }
+            }
+            if ($this->driverName === 'sqlite') {
+                $db->pdo->exec("PRAGMA synchronous = ON");
             }
         }
 
