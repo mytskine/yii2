@@ -518,7 +518,7 @@ class Container extends Component
         $constructor = $reflection->getConstructor();
         if ($constructor !== null) {
             foreach ($constructor->getParameters() as $param) {
-                if (PHP_VERSION_ID >= 50600 && $param->isVariadic()) {
+                if ($param->isVariadic()) {
                     break;
                 }
 
@@ -531,11 +531,9 @@ class Container extends Component
                     } catch (ReflectionException $e) {
                         if (!$this->isNulledParam($param)) {
                             $notInstantiableClass = null;
-                            if (PHP_VERSION_ID >= 70000) {
-                                $type = $param->getType();
-                                if ($type instanceof ReflectionNamedType) {
-                                    $notInstantiableClass = $type->getName();
-                                }
+                            $type = $param->getType();
+                            if ($type instanceof ReflectionNamedType) {
+                                $notInstantiableClass = $type->getName();
                             }
                             throw new NotInstantiableException(
                                 $notInstantiableClass,
@@ -571,7 +569,7 @@ class Container extends Component
      */
     private function isNulledParam($param)
     {
-        return $param->isOptional() || (PHP_VERSION_ID >= 70100 && $param->getType()->allowsNull());
+        return $param->isOptional() || $param->getType()->allowsNull();
     }
 
     /**
@@ -671,7 +669,7 @@ class Container extends Component
 
             if ($isClass) {
                 $className = $class->getName();
-                if (PHP_VERSION_ID >= 50600 && $param->isVariadic()) {
+                if ($param->isVariadic()) {
                     $args = array_merge($args, array_values($params));
                     break;
                 }

@@ -142,12 +142,11 @@ class Controller extends \yii\base\Controller
                 } elseif (is_array($params[$name])) {
                     $isValid = false;
                 } elseif (
-                    PHP_VERSION_ID >= 70000 &&
                     ($type = $param->getType()) !== null &&
                     $type->isBuiltin() &&
                     ($params[$name] !== null || !$type->allowsNull())
                 ) {
-                    $typeName = PHP_VERSION_ID >= 70100 ? $type->getName() : (string)$type;
+                    $typeName = $type->getName();
                     switch ($typeName) {
                         case 'int':
                             $params[$name] = filter_var($params[$name], FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
@@ -170,7 +169,7 @@ class Controller extends \yii\base\Controller
                 }
                 $args[] = $actionParams[$name] = $params[$name];
                 unset($params[$name]);
-            } elseif (PHP_VERSION_ID >= 70100 && ($type = $param->getType()) !== null && !$type->isBuiltin()) {
+            } elseif (($type = $param->getType()) !== null && !$type->isBuiltin()) {
                 try {
                     $this->bindInjectedParams($type, $name, $args, $requestedParams);
                 } catch (Exception $e) {

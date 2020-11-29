@@ -92,13 +92,7 @@ class ControllerTest extends TestCase
 
     public function testNullableInjectedActionParams()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new Application([
+        $this->controller = new FakeController('fake', new Application([
             'id' => 'app',
             'basePath' => __DIR__,
         ]));
@@ -113,12 +107,8 @@ class ControllerTest extends TestCase
 
     public function testInjectionContainerException()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
         // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new Application([
+        $this->controller = new FakeController('fake', new Application([
             'id' => 'app',
             'basePath' => __DIR__,
         ]));
@@ -135,12 +125,7 @@ class ControllerTest extends TestCase
 
     public function testUnknownInjection()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new Application([
+        $this->controller = new FakeController('fake', new Application([
             'id' => 'app',
             'basePath' => __DIR__,
         ]));
@@ -156,12 +141,7 @@ class ControllerTest extends TestCase
 
     public function testInjectedActionParams()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new Application([
+        $this->controller = new FakeController('fake', new Application([
             'id' => 'app',
             'basePath' => __DIR__,
         ]));
@@ -184,10 +164,6 @@ class ControllerTest extends TestCase
 
     public function testInjectedActionParamsFromModule()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
         $module = new \yii\base\Module('fake', new Application([
             'id' => 'app',
             'basePath' => __DIR__,
@@ -195,8 +171,7 @@ class ControllerTest extends TestCase
         $module->set('yii\data\DataProviderInterface', [
             'class' => \yii\data\ArrayDataProvider::className(),
         ]);
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', $module);
+        $this->controller = new FakeController('fake', $module);
         $this->mockWebApplication(['controller' => $this->controller]);
 
         $injectionAction = new InlineAction('injection', $this->controller, 'actionModuleServiceInjection');

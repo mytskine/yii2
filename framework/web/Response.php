@@ -408,23 +408,14 @@ class Response extends \yii\base\Response
             if ($cookie->expire != 1 && isset($validationKey)) {
                 $value = Yii::$app->getSecurity()->hashData(serialize([$cookie->name, $value]), $validationKey);
             }
-            if (PHP_VERSION_ID >= 70300) {
-                setcookie($cookie->name, $value, [
-                    'expires' => $cookie->expire,
-                    'path' => $cookie->path,
-                    'domain' => $cookie->domain,
-                    'secure' => $cookie->secure,
-                    'httpOnly' => $cookie->httpOnly,
-                    'sameSite' => !empty($cookie->sameSite) ? $cookie->sameSite : null,
-                ]);
-            } else {
-                // Work around for setting sameSite cookie prior PHP 7.3
-                // https://stackoverflow.com/questions/39750906/php-setcookie-samesite-strict/46971326#46971326
-                if (!is_null($cookie->sameSite)) {
-                    $cookie->path .= '; samesite=' . $cookie->sameSite;
-                }
-                setcookie($cookie->name, $value, $cookie->expire, $cookie->path, $cookie->domain, $cookie->secure, $cookie->httpOnly);
-            }
+            setcookie($cookie->name, $value, [
+                'expires' => $cookie->expire,
+                'path' => $cookie->path,
+                'domain' => $cookie->domain,
+                'secure' => $cookie->secure,
+                'httpOnly' => $cookie->httpOnly,
+                'sameSite' => !empty($cookie->sameSite) ? $cookie->sameSite : null,
+            ]);
         }
     }
 

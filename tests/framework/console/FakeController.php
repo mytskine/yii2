@@ -8,7 +8,11 @@
 namespace yiiunit\framework\console;
 
 use yii\console\Controller;
+use yii\console\Request;
 use yii\console\Response;
+use yii\data\DataProviderInterface;
+use yiiunit\framework\console\stubs\DummyService;
+
 
 /**
  * @author Misbahul D Munir <misbahuldmunir@gmail.com>
@@ -104,5 +108,18 @@ class FakeController extends Controller
         $response = new Response();
         $response->exitStatus = (int) $status;
         return $response;
+    }
+
+    public function actionInjection($before, Request $request, $between, DummyService $dummyService, Post $post = null, $after)
+    {
+
+    }
+
+    public function actionNullableInjection(?Request $request, ?Post $post)
+    {
+    }
+
+    public function actionModuleServiceInjection(DataProviderInterface $dataProvider)
+    {
     }
 }

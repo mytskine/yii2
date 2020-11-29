@@ -39,13 +39,7 @@ class ControllerTest extends TestCase
 
     public function testNullableInjectedActionParams()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new \yii\web\Application([
+        $this->controller = new FakeController('fake', new \yii\web\Application([
             'id' => 'app',
             'basePath' => __DIR__,
 
@@ -68,12 +62,7 @@ class ControllerTest extends TestCase
 
     public function testInjectionContainerException()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new \yii\web\Application([
+        $this->controller = new FakeController('fake', new \yii\web\Application([
             'id' => 'app',
             'basePath' => __DIR__,
 
@@ -98,12 +87,7 @@ class ControllerTest extends TestCase
 
     public function testUnknownInjection()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new \yii\web\Application([
+        $this->controller = new FakeController('fake', new \yii\web\Application([
             'id' => 'app',
             'basePath' => __DIR__,
 
@@ -127,12 +111,7 @@ class ControllerTest extends TestCase
 
     public function testInjectedActionParams()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', new \yii\web\Application([
+        $this->controller = new FakeController('fake', new \yii\web\Application([
             'id' => 'app',
             'basePath' => __DIR__,
 
@@ -163,10 +142,6 @@ class ControllerTest extends TestCase
 
     public function testInjectedActionParamsFromModule()
     {
-        if (PHP_VERSION_ID < 70100) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.1');
-            return;
-        }
         $module = new \yii\base\Module('fake', new \yii\web\Application([
             'id' => 'app',
             'basePath' => __DIR__,
@@ -182,8 +157,7 @@ class ControllerTest extends TestCase
         $module->set('yii\data\DataProviderInterface', [
             'class' => \yii\data\ArrayDataProvider::className(),
         ]);
-        // Use the PHP71 controller for this test
-        $this->controller = new FakePhp71Controller('fake', $module);
+        $this->controller = new FakeController('fake', $module);
         $this->mockWebApplication(['controller' => $this->controller]);
 
         $injectionAction = new InlineAction('injection', $this->controller, 'actionModuleServiceInjection');
@@ -197,13 +171,7 @@ class ControllerTest extends TestCase
      */
     public function testBindTypedActionParams()
     {
-        if (PHP_VERSION_ID < 70000) {
-            $this->markTestSkipped('Can not be tested on PHP < 7.0');
-            return;
-        }
-
-        // Use the PHP7 controller for this test
-        $this->controller = new FakePhp7Controller('fake', new \yii\web\Application([
+        $this->controller = new FakeController('fake', new \yii\web\Application([
             'id' => 'app',
             'basePath' => __DIR__,
 
@@ -217,10 +185,10 @@ class ControllerTest extends TestCase
         ]));
         $this->mockWebApplication(['controller' => $this->controller]);
 
-        $aksi1 = new InlineAction('aksi1', $this->controller, 'actionAksi1');
+        $aksi2 = new InlineAction('aksi2', $this->controller, 'actionAksi2');
 
         $params = ['foo' => '100', 'bar' => null, 'true' => 'on', 'false' => 'false'];
-        list($foo, $bar, $true, $false) = $this->controller->bindActionParams($aksi1, $params);
+        list($foo, $bar, $true, $false) = $this->controller->bindActionParams($aksi2, $params);
         $this->assertSame(100, $foo);
         $this->assertSame(null, $bar);
         $this->assertSame(true, $true);
@@ -229,7 +197,7 @@ class ControllerTest extends TestCase
         $params = ['foo' => 'oops', 'bar' => null];
         $this->expectException('yii\web\BadRequestHttpException');
         $this->expectExceptionMessage('Invalid data received for parameter "foo".');
-        $this->controller->bindActionParams($aksi1, $params);
+        $this->controller->bindActionParams($aksi2, $params);
     }
 
     public function testAsJson()
