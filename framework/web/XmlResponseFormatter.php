@@ -83,7 +83,7 @@ class XmlResponseFormatter extends Component implements ResponseFormatterInterfa
     }
 
     /**
-     * @param DOMElement $element
+     * @param DOMNode $element
      * @param mixed $data
      */
     protected function buildXml($element, $data)
