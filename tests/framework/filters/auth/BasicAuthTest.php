@@ -29,7 +29,7 @@ class BasicAuthTest extends AuthTest
     {
         $_SERVER['PHP_AUTH_USER'] = $token;
         $_SERVER['PHP_AUTH_PW'] = 'whatever, we are testers';
-        $filter = ['class' => HttpBasicAuth::className()];
+        $filter = ['class' => HttpBasicAuth::class];
         $this->ensureFilterApplies($token, $login, $filter);
     }
 
@@ -41,7 +41,7 @@ class BasicAuthTest extends AuthTest
     public function testHttpBasicAuthWithHttpAuthorizationHeader($token, $login)
     {
         Yii::$app->request->headers->set('HTTP_AUTHORIZATION', 'Basic ' . base64_encode($token . ':' . 'mypw'));
-        $filter = ['class' => HttpBasicAuth::className()];
+        $filter = ['class' => HttpBasicAuth::class];
         $this->ensureFilterApplies($token, $login, $filter);
     }
 
@@ -53,7 +53,7 @@ class BasicAuthTest extends AuthTest
     public function testHttpBasicAuthWithRedirectHttpAuthorizationHeader($token, $login)
     {
         Yii::$app->request->headers->set('REDIRECT_HTTP_AUTHORIZATION', 'Basic ' . base64_encode($token . ':' . 'mypw'));
-        $filter = ['class' => HttpBasicAuth::className()];
+        $filter = ['class' => HttpBasicAuth::class];
         $this->ensureFilterApplies($token, $login, $filter);
     }
 
@@ -67,7 +67,7 @@ class BasicAuthTest extends AuthTest
         $_SERVER['PHP_AUTH_USER'] = $login;
         $_SERVER['PHP_AUTH_PW'] = 'whatever, we are testers';
         $filter = [
-            'class' => HttpBasicAuth::className(),
+            'class' => HttpBasicAuth::class,
             'auth' => function ($username, $password) {
                 if (preg_match('/\d$/', $username)) {
                     return UserIdentity::findIdentity($username);
@@ -104,7 +104,7 @@ class BasicAuthTest extends AuthTest
         $session->set($idParam, $idValue);
 
         $filter = [
-            'class' => HttpBasicAuth::className(),
+            'class' => HttpBasicAuth::class,
             'auth' => function ($username, $password) {
                 if ($username !== null) {
                     $this->fail('Authentication closure should not be called when user is already authenticated');

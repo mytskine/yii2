@@ -31,7 +31,7 @@ use yii\web\User;
  * {
  *     return [
  *         'access' => [
- *             'class' => \yii\filters\AccessControl::className(),
+ *             'class' => \yii\filters\AccessControl::class,
  *             'only' => ['create', 'update'],
  *             'rules' => [
  *                 // deny all POST requests
@@ -99,7 +99,7 @@ class AccessControl extends ActionFilter
     {
         parent::init();
         if ($this->user !== false) {
-            $this->user = Instance::ensure($this->user, User::className());
+            $this->user = Instance::ensure($this->user, User::class);
         }
         foreach ($this->rules as $i => $rule) {
             if (is_array($rule)) {

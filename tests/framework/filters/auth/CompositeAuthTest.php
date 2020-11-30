@@ -68,9 +68,9 @@ class TestController extends Controller
          */
         return [
             'authenticator' => [
-                'class' => CompositeAuth::className(),
+                'class' => CompositeAuth::class,
                 'authMethods' => $this->authMethods ?: [
-                    TestAuth::className(),
+                    TestAuth::class,
                 ],
             ],
         ];
@@ -92,11 +92,11 @@ class CompositeAuthTest extends \yiiunit\TestCase
         $appConfig = [
             'components' => [
                 'user' => [
-                    'identityClass' => UserIdentity::className(),
+                    'identityClass' => UserIdentity::class,
                 ],
             ],
             'controllerMap' => [
-                'test' => TestController::className(),
+                'test' => TestController::class,
             ],
         ];
 
@@ -133,8 +133,8 @@ class CompositeAuthTest extends \yiiunit\TestCase
         /** @var TestAuthController $controller */
         $controller = Yii::$app->createController('test')[0];
         $controller->authMethods = [
-            HttpBearerAuth::className(),
-            TestAuth::className(),
+            HttpBearerAuth::class,
+            TestAuth::class,
         ];
         try {
             $this->assertEquals('success', $controller->run('b'));

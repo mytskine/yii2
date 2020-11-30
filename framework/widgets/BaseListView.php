@@ -248,7 +248,7 @@ abstract class BaseListView extends Widget
             return '';
         }
         $pager = $this->pager;
-        $class = ArrayHelper::remove($pager, 'class', LinkPager::className());
+        $class = ArrayHelper::remove($pager, 'class', LinkPager::class);
         /**
          * @var string $class
          */
@@ -269,7 +269,7 @@ abstract class BaseListView extends Widget
             return '';
         }
         $sorter = $this->sorter;
-        $class = ArrayHelper::remove($sorter, 'class', LinkSorter::className());
+        $class = ArrayHelper::remove($sorter, 'class', LinkSorter::class);
         /**
          * @var string $class
          */

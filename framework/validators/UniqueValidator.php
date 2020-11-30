@@ -181,7 +181,7 @@ class UniqueValidator extends Validator
         /** @var ActiveRecordInterface|\yii\base\BaseObject $targetClass $query */
         $query = $this->prepareQuery($targetClass, $conditions);
 
-        if (!$model instanceof ActiveRecordInterface || $model->getIsNewRecord() || $model->className() !== $targetClass::className()) {
+        if (!$model instanceof ActiveRecordInterface || $model->getIsNewRecord() || get_class($model) !== $targetClass::className()) {
             // if current $model isn't in the database yet then it's OK just to call exists()
             // also there's no need to run check based on primary keys, when $targetClass is not the same as $model's class
             $exists = $query->exists();
@@ -191,10 +191,10 @@ class UniqueValidator extends Validator
                 // only select primary key to optimize query
                 $columnsCondition = array_flip($targetClass::primaryKey());
                 $query->select(array_flip($this->applyTableAlias($query, $columnsCondition)));
-                
+
                 // any with relation can't be loaded because related fields are not selected
                 $query->with = null;
-    
+
                 if (is_array($query->joinWith)) {
                     // any joinWiths need to have eagerLoading turned off to prevent related fields being loaded
                     foreach ($query->joinWith as &$joinWith) {

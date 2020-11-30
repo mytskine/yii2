@@ -113,7 +113,7 @@ class ViewTest extends TestCase
                     'scriptUrl' => '/baseUrl/index.php',
                 ],
                 'cache' => [
-                    'class' => FileCache::className(),
+                    'class' => FileCache::class,
                 ],
             ],
         ]);

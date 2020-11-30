@@ -78,7 +78,7 @@ class ControllerTest extends TestCase
 
         $injectionAction = new InlineAction('injection', $this->controller, 'actionInjection');
         $params = ['between' => 'test', 'after' => 'another', 'before' => 'test'];
-        \Yii::$container->set(VendorImage::className(), function() { throw new \RuntimeException('uh oh'); });
+        \Yii::$container->set(VendorImage::class, function() { throw new \RuntimeException('uh oh'); });
 
         $this->expectException(get_class(new RuntimeException()));
         $this->expectExceptionMessage('uh oh');
@@ -103,7 +103,7 @@ class ControllerTest extends TestCase
 
         $injectionAction = new InlineAction('injection', $this->controller, 'actionInjection');
         $params = ['between' => 'test', 'after' => 'another', 'before' => 'test'];
-        \Yii::$container->clear(VendorImage::className());
+        \Yii::$container->clear(VendorImage::class);
         $this->expectException(get_class(new ServerErrorHttpException()));
         $this->expectExceptionMessage('Could not load required service: vendorImage');
         $this->controller->bindActionParams($injectionAction, $params);
@@ -127,13 +127,13 @@ class ControllerTest extends TestCase
 
         $injectionAction = new InlineAction('injection', $this->controller, 'actionInjection');
         $params = ['between' => 'test', 'after' => 'another', 'before' => 'test'];
-        \Yii::$container->set(VendorImage::className(), VendorImage::className());
+        \Yii::$container->set(VendorImage::class, VendorImage::class);
         $args = $this->controller->bindActionParams($injectionAction, $params);
         $this->assertEquals($params['before'], $args[0]);
         $this->assertEquals(\Yii::$app->request, $args[1]);
         $this->assertEquals('Component: yii\web\Request $request', \Yii::$app->requestedParams['request']);
         $this->assertEquals($params['between'], $args[2]);
-        $this->assertInstanceOf(VendorImage::className(), $args[3]);
+        $this->assertInstanceOf(VendorImage::class, $args[3]);
         $this->assertEquals('Container DI: yiiunit\framework\web\stubs\VendorImage $vendorImage', \Yii::$app->requestedParams['vendorImage']);
         $this->assertNull($args[4]);
         $this->assertEquals('Unavailable service: post', \Yii::$app->requestedParams['post']);
@@ -155,14 +155,14 @@ class ControllerTest extends TestCase
             ],
         ]));
         $module->set('yii\data\DataProviderInterface', [
-            'class' => \yii\data\ArrayDataProvider::className(),
+            'class' => \yii\data\ArrayDataProvider::class,
         ]);
         $this->controller = new FakeController('fake', $module);
         $this->mockWebApplication(['controller' => $this->controller]);
 
         $injectionAction = new InlineAction('injection', $this->controller, 'actionModuleServiceInjection');
         $args = $this->controller->bindActionParams($injectionAction, []);
-        $this->assertInstanceOf(\yii\data\ArrayDataProvider::className(), $args[0]);
+        $this->assertInstanceOf(\yii\data\ArrayDataProvider::class, $args[0]);
         $this->assertEquals('Module yii\base\Module DI: yii\data\DataProviderInterface $dataProvider', \Yii::$app->requestedParams['dataProvider']);
     }
 

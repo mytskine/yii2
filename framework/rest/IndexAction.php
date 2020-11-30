@@ -117,7 +117,7 @@ class IndexAction extends Action
         }
 
         return Yii::createObject([
-            'class' => ActiveDataProvider::className(),
+            'class' => ActiveDataProvider::class,
             'query' => $query,
             'pagination' => [
                 'params' => $requestParams,
