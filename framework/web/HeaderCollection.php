@@ -60,22 +60,35 @@ class HeaderCollection extends BaseObject implements \IteratorAggregate, \ArrayA
     }
 
     /**
-     * Returns the named header(s).
+     * Returns the value of the named header. When multiple lines match, returns the first value.
      * @param string $name the name of the header to return
-     * @param mixed $default the value to return in case the named header does not exist
-     * @param bool $first whether to only return the first header of the specified name.
+     * @param ?string $default the value to return in case the named header does not exist
+     * @param bool $first (deprecated, use getAll()) whether to only return the first header of the specified name.
      * If false, all headers of the specified name will be returned.
-     * @return string|array the named header(s). If `$first` is true, a string will be returned;
-     * If `$first` is false, an array will be returned.
+     * @return ?string the named header.
      */
     public function get($name, $default = null, $first = true)
     {
+        if ($first !== true) {
+            Yii::warning('Parameter $first is deprecated. Use getAll().', __METHOD__);
+        }
         $name = strtolower($name);
         if (isset($this->_headers[$name])) {
             return $first ? reset($this->_headers[$name]) : $this->_headers[$name];
         }
 
         return $default;
+    }
+
+    /**
+     * Returns the named headers.
+     * @param string $name the name of the header to return
+     * @param array $default the value to return in case the named header does not exist
+     * @return array the named headers.
+     */
+    public function getAll($name, $default = [])
+    {
+        return $this->_headers[strtolower($name)] ?? $default;
     }
 
     /**
