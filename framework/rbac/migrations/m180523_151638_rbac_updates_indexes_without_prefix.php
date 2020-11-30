@@ -46,6 +46,7 @@ class m180523_151638_rbac_updates_indexes_without_prefix extends Migration
 
         $this->dropIndex('idx-auth_item-type', $authManager->itemTable);
         $this->createIndex('{{%idx-auth_item-type}}', $authManager->itemTable, 'type');
+        return true;
     }
 
     /**
@@ -62,5 +63,6 @@ class m180523_151638_rbac_updates_indexes_without_prefix extends Migration
 
         $this->dropIndex('{{%idx-auth_item-type}}', $authManager->itemTable);
         $this->createIndex('idx-auth_item-type', $authManager->itemTable, 'type');
+        return true;
     }
 }

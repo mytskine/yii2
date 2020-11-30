@@ -41,6 +41,7 @@ class m160313_153426_session_init extends Migration
             'data' => $dataType,
             'PRIMARY KEY ([[id]])',
         ], $tableOptions);
+        return true;
     }
 
     /**
@@ -49,5 +50,6 @@ class m160313_153426_session_init extends Migration
     public function down()
     {
         $this->dropTable('{{%session}}');
+        return true;
     }
 }

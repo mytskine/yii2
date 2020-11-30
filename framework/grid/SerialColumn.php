@@ -45,6 +45,6 @@ class SerialColumn extends Column
             return $pagination->getOffset() + $index + 1;
         }
 
-        return $index + 1;
+        return (string) ($index + 1);
     }
 }

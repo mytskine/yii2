@@ -45,6 +45,7 @@ class m170907_052038_rbac_add_index_on_auth_assignment_user_id extends Migration
         $this->db = $authManager->db;
 
         $this->createIndex($this->index, $authManager->assignmentTable, $this->column);
+        return true;
     }
 
     /**
@@ -56,5 +57,6 @@ class m170907_052038_rbac_add_index_on_auth_assignment_user_id extends Migration
         $this->db = $authManager->db;
 
         $this->dropIndex($this->index, $authManager->assignmentTable);
+        return true;
     }
 }

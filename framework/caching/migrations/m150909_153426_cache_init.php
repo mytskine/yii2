@@ -51,6 +51,7 @@ class m150909_153426_cache_init extends Migration
             'data' => $this->binary(),
             'PRIMARY KEY ([[id]])',
             ], $tableOptions);
+        return true;
     }
 
     /**
@@ -62,5 +63,6 @@ class m150909_153426_cache_init extends Migration
         $this->db = $cache->db;
 
         $this->dropTable($cache->cacheTable);
+        return true;
     }
 }

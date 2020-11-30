@@ -46,6 +46,7 @@ class m150207_210500_i18n_init extends Migration
         $this->addForeignKey('fk_message_source_message', '{{%message}}', 'id', '{{%source_message}}', 'id', 'CASCADE', $onUpdateConstraint);
         $this->createIndex('idx_source_message_category', '{{%source_message}}', 'category');
         $this->createIndex('idx_message_language', '{{%message}}', 'language');
+        return true;
     }
 
     public function down()
@@ -53,5 +54,6 @@ class m150207_210500_i18n_init extends Migration
         $this->dropForeignKey('fk_message_source_message', '{{%message}}');
         $this->dropTable('{{%message}}');
         $this->dropTable('{{%source_message}}');
+        return true;
     }
 }

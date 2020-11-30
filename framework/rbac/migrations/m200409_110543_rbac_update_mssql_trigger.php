@@ -109,6 +109,7 @@ class m200409_110543_rbac_update_mssql_trigger extends Migration
             END;"
             );
         }
+        return true;
     }
 
     /**
@@ -160,5 +161,6 @@ class m200409_110543_rbac_update_mssql_trigger extends Migration
                     END
             END;");
         }
+        return true;
     }
 }

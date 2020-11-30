@@ -135,6 +135,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration
                     END
             END;");
         }
+        return true;
     }
 
     /**
@@ -154,6 +155,7 @@ class m140506_102106_rbac_init extends \yii\db\Migration
         $this->dropTable($authManager->itemChildTable);
         $this->dropTable($authManager->itemTable);
         $this->dropTable($authManager->ruleTable);
+        return true;
     }
 
     protected function buildFkClause($delete = '', $update = '')
